@@ -6,11 +6,11 @@
     </x-slot>
     <div class="py-12">
         
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 ">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg ">
+                <div class="max-w-xl" flex justify-center>
                     <h1>Patient History</h1>
-                    <table class="table-auto w-full border-collapse border border-gray-300">
+                    <table class="table-auto w-full border-collapse border border-gray-300 ">
                         <thead class="bg-gray-100">
                             <tr>
                                 <th class="border border-gray-300 px-4 py-2 text-left">ID</th>
@@ -81,7 +81,7 @@
                 </div>
             </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg flex justify-center">
                 <div class="max-w-xl">
                     <h1>Appointments History</h1>
                     <table class="table-auto w-full border-collapse border border-gray-300">
