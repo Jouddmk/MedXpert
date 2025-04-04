@@ -1,52 +1,23 @@
 <?php
 
+use App\Http\Controllers\patientController;
+use App\Http\Controllers\ProfileController;
+use App\Models\Patient;
 use Illuminate\Support\Facades\Route;
-use App\Models\doctor_details;
-use App\Models\Appointment;
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Models\admin\Doctor;
-use App\Models\admin\Patient;
-use App\Models\admin\DoctorDetails;
-
-Route::get('/doctor', function () {
-    $doctors = doctor_details::whereHas('user', function ($query) {
-        $query->where('role', 'doctor');
-    })->with('user')->get();
-
-    $appointments = Appointment::where('status', 'pending')->get();
-
-    return view('doctor', ['doctors' => $doctors, 'appointments' => $appointments]);
-});
-
-Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
-Route::post('/appointments/book', [AppointmentController::class, 'book'])->name('appointments.book');
-
-
-
-
-
-
-
-
-
-
 
 Route::get('/', function () {
-    return view('admindashboard.index');
+    return view('welcome');
 });
 
-route::get('/admindashboard',function(){
-    $doctorCount = Doctor::count();
-    $patientCount = Patient::count();
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-    $doctorAmman = DoctorDetails::where('city', 'Amman')->count();
-    $doctorZarqa = DoctorDetails::where('city', 'Zarqa')->count();
-    $doctorIrbid = DoctorDetails::where('city', 'Irbid')->count();
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-    return view ('admindashboard.index',compact('doctorCount' , 'patientCount' ,'doctorAmman', 'doctorZarqa', 'doctorIrbid'));
-})->name('dash');
-
-
-Route::get('/admindashboard/doctors', [DashboardController::class, 'doctors'])->name('doc');
-Route::get('/admindashboard/patients', [DashboardController::class, 'patients'])->name('pat');
+Route::post('patient-history/{patient}', [patientController::class, 'update'])->name('patient-history.update');
+require __DIR__.'/auth.php';

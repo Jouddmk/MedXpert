@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Models\Admin;
-
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DoctorDetails extends Model
+class DoctorDetail extends Model
 {
     use HasFactory;
 
@@ -19,13 +18,11 @@ class DoctorDetails extends Model
         'phone',
         'experience_years',
         'image',
-        'rating'
+        'rating',
     ];
 
-  
     public function doctor()
     {
-        return $this->belongsTo(Doctor::class, 'doctor_id');
+        return $this->belongsTo(Doctor::class);
     }
 }
-

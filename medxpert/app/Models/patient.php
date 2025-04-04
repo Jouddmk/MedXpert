@@ -1,10 +1,9 @@
 <?php
-namespace App\Models\Admin;
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\admin\User;
-use App\Models\admin\PatientMedicalHistory;
 
 class Patient extends Model
 {
@@ -18,16 +17,16 @@ class Patient extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     public function medicalHistory()
     {
-        return $this->hasOne(PatientMedicalHistory::class, 'user_id', 'user_id');
+        return $this->hasOne(PatientMedicalHistory::class, 'user_id', 'id');
     }
 
     public function appointments()
     {
-        return $this->hasMany(Appointment::class, 'user_id');
+        return $this->hasMany(Appointment::class, 'user_id', 'id');
     }
 }
