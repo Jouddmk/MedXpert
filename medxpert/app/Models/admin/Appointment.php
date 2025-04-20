@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\admin;
+
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,24 +16,16 @@ class Appointment extends Model
         'appointment_date',
         'appointment_time',
         'status',
-        'notes',
+        'notes'
     ];
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'user_id', 'id');
+        return $this->belongsTo(Patient::class, 'user_id');
     }
-<<<<<<< HEAD
 
     public function doctor()
     {
-        return $this->belongsTo(Doctor::class);
+        return $this->belongsTo(Doctor::class, 'doctor_id');
     }
 }
-=======
-    public function slot()
-    {
-        return $this->belongsTo(AvailableSlot::class);
-    }
-}
->>>>>>> f07bc98923b74382b670049a39a542fa90369dea

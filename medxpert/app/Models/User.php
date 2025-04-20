@@ -37,9 +37,17 @@ class User extends Authenticatable
     {
         return $this->hasOne(Doctor::class);
     }
+<<<<<<< HEAD
 
     public function admin()
     {
         return $this->hasOne(Admin::class);
     }
 }
+=======
+    public function doctors()
+    {
+        return $this->belongsTo(doctors::class, 'user_id', 'id');
+    }
+}
+>>>>>>> f07bc98923b74382b670049a39a542fa90369dea

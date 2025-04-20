@@ -41,7 +41,7 @@ return new class extends Migration {
             $table->decimal('price', 10, 2);
             $table->string('phone', 10);
             $table->integer('experience_years');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->enum('rating', ['1', '2', '3', '4', '5'])->default('4');
             $table->timestamps();
         });
@@ -58,38 +58,53 @@ return new class extends Migration {
         // Patient Medical History Table
         Schema::create('patient_medical_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('patients')->onDelete('cascade');
-            $table->text('chronic_diseases')->nullable();
-            $table->text('medications')->nullable();
-            $table->text('allergies')->nullable();
-            $table->text('notes')->nullable();
+            $table->foreignId('patient_id')->unique()->constrained('patients')->onDelete('cascade');
+            $table->string('chronic_diseases')->nullable()->default('None');
+            $table->string('medications')->nullable()->default('None');
+            $table->string('allergies')->nullable()->default('None');
+            $table->string('notes')->nullable()->default('No additional notes');
             $table->timestamps();
         });
+        
 
         // Available Slots Table
-        // Schema::create('available_slots', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
-        //     $table->date('date');
-        //     $table->time('start_time');
-        //     $table->time('end_time');
-        //     $table->boolean('is_booked')->default(false);
-        //     $table->timestamps();
-        // });
+        Schema::create('available_slots', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
+            $table->date('date');
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->boolean('is_booked')->default(false);
+            $table->timestamps();
+        });
 
         // Appointments Table
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('patients')->onDelete('cascade');
             $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
-            // $table->foreignId('slot_id')->unique()->constrained('available_slots')->onDelete('cascade');
+            $table->foreignId('slot_id')->unique()->constrained('available_slots')->onDelete('cascade');
             $table->date('appointment_date');
             $table->time('appointment_time');
             $table->enum('status', ['pending', 'confirmed', 'cancelled', 'completed', 'expired'])->default('pending');
             $table->text('notes')->nullable();
             $table->timestamps();
         });
+
+        // form table
+        Schema::create('forms', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email');
+            $table->text('message')->nullable();
+            $table->boolean('replied')->default(false);
+            $table->timestamps();
+        });
+        
+
+
     }
+
 
     public function down()
     {
@@ -101,5 +116,6 @@ return new class extends Migration {
         Schema::dropIfExists('doctors');
         Schema::dropIfExists('admins');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('forms');
     }
 };
